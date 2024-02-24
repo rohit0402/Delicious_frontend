@@ -27,7 +27,7 @@ function Cart() {
           <FontAwesomeIcon
             icon={faTimes}
             onClick={() => setActiveCart(!activeCart)}
-            className="border-2 ml-auto border-gray-600 text-gray-600 font-bold p-1 text-xl rounded-md hover:text-red-300 hover:border-red-300"
+            className="border-2 ml-auto border-gray-600 hover:cursor-pointer text-gray-600 font-bold p-1 text-xl rounded-md hover:text-red-300 hover:border-red-300"
           />
         </div>
         {cartItems.length > 0 ? (
@@ -58,19 +58,12 @@ function Cart() {
           >
             Order
           </button>
-          {/* <button
-            className="bg-yellow-300 font-bold px-3 text-black py-2 rounded-lg w-[90vw] lg:w-[16.5vw] mr-2 mb-3"
-            onClick={() => navigate("/confirm")}
-            disabled={totalQty === 0} // Disable the button if totalQty is 0
-          >
-            Order
-          </button> */}
         </div>
       </div>
       <FontAwesomeIcon
         icon={faCartShopping}
         onClick={() => setActiveCart(!activeCart)}
-        className="rounded-full bg-yellow-400  text-sm p-3 fixed top-3.5 right-1.5"
+        className="rounded-full bg-yellow-400 hover:cursor-pointer  text-sm p-3 fixed top-3.5 right-1.5"
       />
     </>
   );
