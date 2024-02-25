@@ -1,18 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearch } from "../../redux/slices/SearchSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import NavList from "./NavList";
+import { loginUser,setUser } from "../../redux/slices/AuthSlice";
+axios.defaults.withCredentials=true;
 
 function Navbar() {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth.user);
+
   const [toggle, setToggle] = useState(false);
   const handleChange = (e) => {
     dispatch(setSearch(e.target.value));
   };
+
+  const auth = useSelector((state) => state.auth.isAuth);
+  const user=useSelector((state)=> state.auth.user);
+const getUser=async ()=>{
+  const res=await axios.get("http://localhost:8080/api/getUser",{withCredentials:true});
+  const data= await res.data;
+  dispatch(setUser(data.user));
+  dispatch(loginUser());
+
+};
+
+useEffect(()=>{
+  getUser();
+},[]);
+
   return (
     <div className="fixed top-0 w-[100vw]">
       <nav className="bg-yellow-400 shadow-lg ">
@@ -79,23 +96,23 @@ function Navbar() {
             {window.innerWidth > 767 && auth && (
               <div className="hidden sm:block sm:mr-auto">
                 <div className="flex items-center">
-                  <li>logout</li>
+                  <Link to="/" className="mt-4 mr-5 text-black text-lg font-semibold hover:cursor-pointer hover:underline  hover:text-black-300">logout</Link>
                 </div>
               </div>
             )}
 
-            {window.innerWidth > 767 && (
+            {window.innerWidth > 767&&!auth && (
               <div className="hidden sm:block sm:mr-auto">
                 <div className="flex items-center">
                   <Link
                     to="/login"
-                    className="ml-4 mr-3 mt-3 text-black text-lg font-semibold hover:text-black-300"
+                    className="ml-4 mr-3 mt-4 text-black text-lg font-semibold hover:text-black-300"
                   >
                     Login
                   </Link>
                   <Link
                     to="/signup"
-                    className="ml-2 mt-3 mr-5 text-black text-lg font-semibold hover:text-black-300"
+                    className="ml-2 mt-4 mr-5 text-black text-lg font-semibold hover:text-black-300"
                   >
                     Sign Up
                   </Link>

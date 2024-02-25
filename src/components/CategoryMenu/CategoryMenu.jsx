@@ -3,18 +3,24 @@ import FoodData from "../../Data/FoodData";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategory } from "../../redux/slices/CategorySlice";
 function CategoryMenu() {
+
   const [categories, setCategories] = useState([]);
+
   const listUniqueCategories = () => {
     const uniqueCategories = [
       ...new Set(FoodData.map((food) => food.category)),
     ];
     setCategories(uniqueCategories);
   };
+
   useEffect(() => {
     listUniqueCategories();
   }, []);
+
   const dispatch = useDispatch();
+
   const selectedCategory = useSelector((state) => state.category.category);
+  
   return (
     <div className="mt-20 mx-4">
       <h3 className="text-2xl font-semibold tracking-wide m text-gray-800">

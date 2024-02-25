@@ -7,4 +7,4 @@ const ProtectedRoute=({element})=>{
     return  cartItems.length>0 ? element:<Navigate to="/"/>;
 }
 
-export default ProtectedRoute
+export default ProtectedRoute;

@@ -1,12 +1,37 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import {loginUser} from "../../redux/slices/AuthSlice";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+
+  const handleLogin= async (e)=>{
+    e.preventDefault();
+    const res= await axios.post("http://localhost:8080/api/login",{email,password});
+
+    const data=await res.data;
+
+    if(res.status===200){
+      dispatch(loginUser());
+      navigate("/");
+      toast.success(data.message);
+    }else if(res.status===400){
+      toast.error(data.message);
+    }else{
+      toast.error(data.message);
+    }
+  }
   return (
     <div className="flex justify-center items-center h-screen">
       <form
+      onSubmit={handleLogin}
         action=""
         className="bg-white rounded-lg p-5 shadow-lg flex flex-col gap-3 w-[60vw] lg:w-[20vw] text-sm"
       >
