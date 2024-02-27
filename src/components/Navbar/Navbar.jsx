@@ -5,7 +5,10 @@ import { setSearch } from "../../redux/slices/SearchSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import NavList from "./NavList";
+import axios from "axios";
 import { loginUser,setUser } from "../../redux/slices/AuthSlice";
+import { getCart } from "../../Helper";
+import { setCart } from "../../redux/slices/CartSlice";
 axios.defaults.withCredentials=true;
 
 function Navbar() {
@@ -25,6 +28,8 @@ const getUser=async ()=>{
   dispatch(loginUser());
 
 };
+
+getCart(user).then((data)=> dispatch(setCart(data.cartItems)));
 
 useEffect(()=>{
   getUser();

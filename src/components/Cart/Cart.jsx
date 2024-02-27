@@ -9,9 +9,10 @@ import { useNavigate } from "react-router-dom";
 function Cart() {
   const [activeCart, setActiveCart] = useState(false);
   const cartItems = useSelector((state) => state.cart.cart);
-  const totalQty = cartItems.reduce((total, item) => total + item.qty, 0);
+  console.log(cartItems);
+  const totalQty = cartItems.reduce((total, item) => total + item.quantity, 0);
   const totalPrice = cartItems.reduce(
-    (total, item) => (total = total + item.qty * item.price),
+    (total, item) => (total = total + item.quantity * item.price),
     0
   );
   const navigate = useNavigate();
@@ -34,11 +35,7 @@ function Cart() {
           cartItems.map((food) => (
             <CartItem
               key={food.id}
-              name={food.name}
-              img={food.img}
-              price={food.price}
-              qty={food.qty}
-              id={food.id}
+              {...food}
             />
           ))
         ) : (

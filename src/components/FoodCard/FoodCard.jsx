@@ -1,11 +1,30 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../redux/slices/CartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { getCart } from "../../Helper";
+import { setCart } from "../../redux/slices/CartSlice";
 
-function FoodCard({ img, id, price, rating, desc, name,handleToast }) {
+function FoodCard({ img, id, price, rating, desc, name, handleToast }) {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const addToCart = async ({ id, name, price, img, quantity, rating }) => {
+    const res = await axios.post(
+      `http://localhost:8080/api/addToCart/${user._id}`,
+      { id, name, price, image: img, quantity, rating }
+    );
+
+    const data = await res.data;
+    if (res.status === 200) {
+      toast.success(data.message);
+      console.log(data.message);
+    }
+    getCart(user).then((data) => {
+        dispatch(setCart(data.cartItems))
+    });
+  };
   return (
     <div className="font-bold w-[240px] h-[320px] bg-white p-5 flex flex-col rounded-lg gap-2">
       <img
@@ -26,11 +45,14 @@ function FoodCard({ img, id, price, rating, desc, name,handleToast }) {
           />{" "}
           {rating}
         </span>
-        <button className="p-1 text-black bg-yellow-300 hover:bg-yellow-600 rounded-lg text-sm"
-        onClick={()=>{
-          dispatch(addToCart({id,name,price,img,qty:1,rating}));
-          handleToast(name);
-        }}>
+        <button
+          className="p-1 text-black bg-yellow-300 hover:bg-yellow-600 rounded-lg text-sm"
+          onClick={() => {
+            !user
+              ? toast.error("please login first")
+              : addToCart({ id, name, price, img, quantity: 1, rating });
+          }}
+        >
           Add
         </button>
       </div>
