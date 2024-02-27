@@ -9,6 +9,7 @@ import axios from "axios";
 import { loginUser,setUser } from "../../redux/slices/AuthSlice";
 import { getCart } from "../../Helper";
 import { setCart } from "../../redux/slices/CartSlice";
+import toast from "react-hot-toast";
 axios.defaults.withCredentials=true;
 
 function Navbar() {
@@ -21,15 +22,28 @@ function Navbar() {
 
   const auth = useSelector((state) => state.auth.isAuth);
   const user=useSelector((state)=> state.auth.user);
-const getUser=async ()=>{
-  const res=await axios.get("http://localhost:8080/api/getUser",{withCredentials:true});
-  const data= await res.data;
-  dispatch(setUser(data.user));
-  dispatch(loginUser());
+  const getUser = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/getUser", { withCredentials: true });
+      const data = res.data;
+      dispatch(setUser(data.user));
+      dispatch(loginUser());
+  
+      // Use await with getCart
+      const cartData = await getCart(data.user);
+      dispatch(setCart(cartData.cartItems));
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      // Handle error
+    }
+  };
 
-};
-
-getCart(user).then((data)=> dispatch(setCart(data.cartItems)));
+  const handleLogout=async ()=>{
+    const res=await axios.get("http://localhost:8080/api/logout");
+    const data=await res.data;
+    toast.success(data.message);
+    window.location.href="/";
+  }
 
 useEffect(()=>{
   getUser();
@@ -101,7 +115,7 @@ useEffect(()=>{
             {window.innerWidth > 767 && auth && (
               <div className="hidden sm:block sm:mr-auto">
                 <div className="flex items-center">
-                  <Link to="/" className="mt-4 mr-5 text-black text-lg font-semibold hover:cursor-pointer hover:underline  hover:text-black-300">logout</Link>
+                  <Link to="/" className="mt-4 mr-5 text-black text-lg font-semibold hover:cursor-pointer hover:underline  hover:text-black-300" onClick={handleLogout}>logout</Link>
                 </div>
               </div>
             )}

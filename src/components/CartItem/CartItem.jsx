@@ -3,20 +3,39 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
-import { removeFromCart,incrementQty,decrementQty } from "../../redux/slices/CartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart,incrementQty,decrementQty, setCart } from "../../redux/slices/CartSlice";
 import toast from "react-hot-toast";
-function CartItem({ image, name, price, quantity, id }) {
+import axios from "axios";
+import { getCart } from "../../Helper";
+function CartItem({ image, name, price, quantity, id ,_id}) {
   const dispatch = useDispatch();
+  const user=useSelector((state)=> state.auth.user);
+  const removeFromCart =async (id)=>{
+    const userId=user._id;
+  const res=await axios.delete(`http://localhost:8080/api/removeFromCart/${id}`,{data:{userId}});
+    const data=await res.data;
+    await getCart(user).then((data)=> dispatch(setCart(data.cartItems)));
+  }
 
+  const incrementQuantity=async (id)=>{
+    const res=await axios.put(`http://localhost:8080/api/incrementQuantity/${id}`);
+    const data=await  res.data;
+    getCart(user).then((data)=> dispatch(setCart(data.cartItems)));
+  }
+  const decrementQuantity=async (id)=>{
+    const res=await axios.put(`http://localhost:8080/api/decrementQuantity/${id}`);
+    const data=await  res.data;
+    getCart(user).then((data)=> dispatch(setCart(data.cartItems)));
+  }
   return (
     <>
     <div className="flex gap-2 rounded-lg p-3 mb-3 shadow-xl">
       <FontAwesomeIcon
         icon={faTrash}
         onClick={() => {
-          dispatch(removeFromCart({ id, name, price, image, quantity: 1 }));
-          toast(`${name} Removed from Cart`,{
+          removeFromCart(_id);
+              toast(`${name} Removed from Cart`,{
             icon: '😕',
           });
         }}
@@ -31,7 +50,7 @@ function CartItem({ image, name, price, quantity, id }) {
             <FontAwesomeIcon
               icon={faMinus}
               onClick={()=>{
-                quantity>1?dispatch(decrementQty({id})):(quantity=1);
+                quantity>1?decrementQuantity(_id):(quantity=1);
               }}
               className="border-2 border-gray-600 text-gray-600 hover:text-black
                hover:bg-yellow-600 hover:border-none rounded-md p-1 text-sm  transition-all ease-linear cursor-pointer"
@@ -40,7 +59,7 @@ function CartItem({ image, name, price, quantity, id }) {
             <FontAwesomeIcon
               icon={faPlus}
               onClick={()=>{
-                quantity>=1?dispatch(incrementQty({id})):(quantity=0);
+                quantity>=1?incrementQuantity(_id):(quantity=0);
               }}
               className="border-2 border-gray-600 text-gray-600 hover:text-black
                hover:bg-yellow-600 hover:border-none rounded-md p-1 text-sm transition-all ease-linear cursor-pointer"

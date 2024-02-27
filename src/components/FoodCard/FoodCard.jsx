@@ -19,7 +19,6 @@ function FoodCard({ img, id, price, rating, desc, name, handleToast }) {
     const data = await res.data;
     if (res.status === 200) {
       toast.success(data.message);
-      console.log(data.message);
     }
     getCart(user).then((data) => {
         dispatch(setCart(data.cartItems))

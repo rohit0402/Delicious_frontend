@@ -1,8 +1,11 @@
 import axios from "axios";
-export const getCart=async (user)=>{
-    const res=await axios.get(`http://localhost:8080/api/getCart/${user._id}`);
 
-    const data=await res.data;
-
-    return data;
-}
+export const getCart = async (user) => {
+  try {
+    const res = await axios.get(`http://localhost:8080/api/getCart/${user._id}`);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching cart data:", error);
+    return null; // or you can throw the error if you want the caller to handle it
+  }
+};

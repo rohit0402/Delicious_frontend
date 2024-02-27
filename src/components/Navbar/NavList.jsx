@@ -1,7 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
+import toast from "react-hot-toast";
 const NavList = ({ toggle, setToggle, auth }) => {
+
+  const handleLogout=async ()=>{
+    const res=await axios.get("http://localhost:8080/api/logout");
+    const data=await res.data;
+    toast.success(data.message);
+    window.location.href="/";
+  }
   return (
     <div
       className={`${
@@ -16,7 +24,7 @@ const NavList = ({ toggle, setToggle, auth }) => {
           <Link to="/" className="hover:text-yellow-500 select-none">
             Menu
           </Link>
-          <li className="hover:text-yellow-500 select-none list-none">logout</li>
+          <li onClick={handleLogout} className="hover:text-yellow-500 select-none list-none">logout</li>
         </div>
       ) : (
         <div className="flex flex-col">
