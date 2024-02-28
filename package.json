@@ -23,7 +23,8 @@
     "react-font": "^1.2.1",
     "react-hot-toast": "^2.4.1",
     "react-redux": "^9.1.0",
-    "react-router-dom": "^6.22.0"
+    "react-router-dom": "^6.22.0",
+    "react-spinners": "^0.13.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.55",
