@@ -55,8 +55,16 @@ useEffect(()=>{
         <div className="max-w-70xl  px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             {/* Logo toggle */}
-            <div className="flex-shrink-0 flex items-center">
-              <img
+            <div className="flex-shrink-0 flex items-center mt-2.5 mr-1.5">
+              <h3 className={`absolute top-5 left-5 w-auto h-9 cursor-pointer text-lg transition-all ease-in-out duration-500 ${
+                  toggle && "hidden"
+                }`}
+                onClick={() => {
+                  if (window.innerWidth < 768) {
+                    setToggle(true);
+                  }
+                }}><i><b>DELICIOUS</b></i></h3>
+              {/* <img
                 className={`absolute top-4.9 left-5 w-auto h-9 cursor-pointer transition-all ease-in-out duration-500 ${
                   toggle && "hidden"
                 }`}
@@ -67,7 +75,7 @@ useEffect(()=>{
                 }}
                 src="/src/assets/logo.jpg"
                 alt="Restaurant Logo"
-              />
+              /> */}
               <FontAwesomeIcon
                 icon={faTimes}
                 className={`absolute top-4.9 left-6 w-auto h-9 lg:hidden cursor-pointer transition-all ease-in-out duration-500 ${
@@ -79,7 +87,7 @@ useEffect(()=>{
             <NavList toggle={toggle} setToggle={setToggle} auth={auth} />
             {/* Navigation Links */}
             {window.innerWidth > 767 && (
-              <div className="flex items-center justify-center ml-3 m-0 flex-1 sm:items-stretch sm:justify-start">
+              <div className="flex items-center justify-center ml-5 m-0 flex-1 sm:items-stretch sm:justify-start">
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex">
                     <Link
