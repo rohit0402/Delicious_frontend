@@ -12,7 +12,7 @@ const SignUp = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    const res = await axios.post("http://localhost:8080/api/signup", {
+    const res = await axios.post("https://delicious-backend-1.onrender.com/api/signup", {
       name,
       email,
       password,

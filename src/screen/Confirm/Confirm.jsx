@@ -16,7 +16,7 @@ function Confirm() {
   const clearCart = async () => {
     const userId = user._id;
     try {
-      const res = await axios.delete("http://localhost:8080/api/clearCart", { data: { userId } });
+      const res = await axios.delete("https://delicious-backend-1.onrender.com/api/clearCart", { data: { userId } });
       const data = res.data;
       toast.success(data.message);
     } catch (error) {

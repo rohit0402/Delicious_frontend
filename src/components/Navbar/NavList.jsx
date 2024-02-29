@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 const NavList = ({ toggle, setToggle, auth }) => {
 
   const handleLogout=async ()=>{
-    const res=await axios.get("http://localhost:8080/api/logout");
+    const res=await axios.get("https://delicious-backend-1.onrender.com/api/logout");
     const data=await res.data;
     toast.success(data.message);
     window.location.href="/";

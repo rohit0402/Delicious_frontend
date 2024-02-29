@@ -24,7 +24,7 @@ function Navbar() {
   const user=useSelector((state)=> state.auth.user);
   const getUser = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/getUser", { withCredentials: true });
+      const res = await axios.get("https://delicious-backend-1.onrender.com/api/getUser", { withCredentials: true });
       const data = res.data;
       dispatch(setUser(data.user));
       dispatch(loginUser());
@@ -39,7 +39,7 @@ function Navbar() {
   };
 
   const handleLogout=async ()=>{
-    const res=await axios.get("http://localhost:8080/api/logout");
+    const res=await axios.get("https://delicious-backend-1.onrender.com/api/logout");
     const data=await res.data;
     toast.success(data.message);
     window.location.href="/";

@@ -14,7 +14,7 @@ const Login = () => {
 
   const handleLogin= async (e)=>{
     e.preventDefault();
-    const res= await axios.post("http://localhost:8080/api/login",{email,password});
+    const res= await axios.post("https://delicious-backend-1.onrender.com/api/login",{email,password});
 
     const data=await res.data;
 

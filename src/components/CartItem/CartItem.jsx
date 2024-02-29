@@ -13,18 +13,18 @@ function CartItem({ image, name, price, quantity, id ,_id}) {
   const user=useSelector((state)=> state.auth.user);
   const removeFromCart =async (id)=>{
     const userId=user._id;
-  const res=await axios.delete(`http://localhost:8080/api/removeFromCart/${id}`,{data:{userId}});
+  const res=await axios.delete(`https://delicious-backend-1.onrender.com/api/removeFromCart/${id}`,{data:{userId}});
     const data=await res.data;
     await getCart(user).then((data)=> dispatch(setCart(data.cartItems)));
   }
 
   const incrementQuantity=async (id)=>{
-    const res=await axios.put(`http://localhost:8080/api/incrementQuantity/${id}`);
+    const res=await axios.put(`https://delicious-backend-1.onrender.com/api/incrementQuantity/${id}`);
     const data=await  res.data;
     getCart(user).then((data)=> dispatch(setCart(data.cartItems)));
   }
   const decrementQuantity=async (id)=>{
-    const res=await axios.put(`http://localhost:8080/api/decrementQuantity/${id}`);
+    const res=await axios.put(`https://delicious-backend-1.onrender.com/api/decrementQuantity/${id}`);
     const data=await  res.data;
     getCart(user).then((data)=> dispatch(setCart(data.cartItems)));
   }

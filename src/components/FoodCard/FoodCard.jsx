@@ -12,7 +12,7 @@ function FoodCard({ img, id, price, rating, desc, name, handleToast }) {
   const user = useSelector((state) => state.auth.user);
   const addToCart = async ({ id, name, price, img, quantity, rating }) => {
     const res = await axios.post(
-      `http://localhost:8080/api/addToCart/${user._id}`,
+      `https://delicious-backend-1.onrender.com/api/addToCart/${user._id}`,
       { id, name, price, image: img, quantity, rating }
     );
 
