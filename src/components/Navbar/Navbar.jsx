@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearch } from "../../redux/slices/SearchSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { loginUser, setUser } from "../../redux/slices/AuthSlice";
 import { getCart } from "../../Helper";
@@ -73,14 +73,17 @@ function Navbar() {
           <div className="flex justify-between h-16">
             <div className="flex items-center mr-3">
               {/* Logo */}
+              {windowWidth<767&&<FontAwesomeIcon
+                icon={toggle ? faTimes : faBars}
+                className="block lg:hidden h-8 w-8 mr-4 cursor-pointer"
+                onClick={() => setToggle(!toggle)}
+              />}
               <h3 className="text-lg font-bold sm:mr-5" onClick={handleClick}>
                 <Link to="/">
-                  {!toggle ? (
+                  {!toggle && (
                     <b>
                       <i className=" font-serif font-bold">DELICIOUS</i>
                     </b>
-                  ) : (
-                    <FontAwesomeIcon className="text-3xl" icon={faTimes} />
                   )}
                 </Link>
               </h3>
